@@ -14,3 +14,8 @@ npm install vuex --save
 ```
 npm install axios --save
 ```
+
+## mockjs
+```
+npm install mockjs --save-dev
+```

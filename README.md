@@ -27,3 +27,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## 相关文档
+* [vue](https://cn.vuejs.org/v2/guide/)
+* [mockjs](http://mockjs.com/)
+* [element](https://element.eleme.cn/#/zh-CN)
