@@ -34,7 +34,7 @@
         </el-table>
 
         <el-pagination
-                v-if="this.options.pagination"
+                v-if="this.computedOptions.pagination"
                 background
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
@@ -56,36 +56,6 @@
 
     import axios from 'axios'
 
-    let _options;
-    _options = {
-        url: 'http://vm.centos.xmissy_stock_plan_api/pro/company/list',// 请求后台的URL（*）
-        method: 'get',// 请求方式（*）
-        queryParams: function (params) {
-            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-                limit: params.limit,   //页面大小
-                offset: params.offset
-            };
-            return temp;
-        },
-
-        striped: true,                      //是否显示行间隔色
-
-        pagination: true,                   //是否显示分页（*）
-        pageNumber: 1,                       //初始化加载第一页，默认第一页
-        pageSize: 10,                       //每页的记录行数（*）
-        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-
-        columns: [
-            // {
-            //     field:'employees',
-            //     title:'员工人数',
-            //     formatter: function (value, row, index) {
-            //         return ''
-            //     } //自定义方法，添加操作按钮
-            // }
-        ]
-    };
-
     export default {
         data() {
             return {
@@ -93,12 +63,49 @@
                 currentPage:1,
                 pageSize:10,
                 tableData: [],
-
-                _options:_options
             }
         },
         props:{
             options:{},
+        },
+        computed: {
+            // 计算属性的 getter
+            reversedMessage: function () {
+                // `this` 指向 vm 实例
+                return this.message.split('').reverse().join('')
+            },
+            computedOptions: function(){
+                var default_options = {
+                    url: '',// 请求后台的URL（*）
+                    method: 'get',// 请求方式（*）
+                    queryParams: function (params) {
+                        var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                            limit: params.limit,   //页面大小
+                            offset: params.offset
+                        };
+                        return temp;
+                    },
+
+                    striped: true,                      //是否显示行间隔色
+
+                    pagination: true,                   //是否显示分页（*）
+                    pageNumber: 1,                       //初始化加载第一页，默认第一页
+                    pageSize: 10,                       //每页的记录行数（*）
+                    pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+
+                    columns: [
+                        // {
+                        //     field:'employees',
+                        //     title:'员工人数',
+                        //     formatter: function (value, row, index) {
+                        //         return ''
+                        //     } //自定义方法，添加操作按钮
+                        // }
+                    ]
+                }
+                // return {...this.default_options, ...this.options}
+                return {...default_options, ...this.options}
+            }
         },
         methods: {
             handleSizeChange(val) {
@@ -138,13 +145,10 @@
             }
         },
         mounted () {
-
-            this._options = {...this._options,...this.options}
-
             axios
-                .get(this._options.url)
+                .get(this.computedOptions.url)
                 .then(response => {
-                    window.console.log(response)
+                    window.console.log(this.computedOptions)
                     this.total = response.data.data.data.total_page
                     this.currentPage = response.data.data.data.current_page
                     this.tableData = response.data.data.data.list

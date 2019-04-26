@@ -10,8 +10,8 @@ Mock.mock('http://vm.centos.xmissy_stock_plan_api/pro/stock/list', (req, res) =>
                 data:{
                     current_page: 1,
                     page_size: 10,
-                    total_page: 3601,
-                    "list|1-10": [
+                    total_page: 11,
+                    "list|11-11": [
                         {
                             "symbol|100000-700000": 100000,
                             "name":"@ctitle(4)",
