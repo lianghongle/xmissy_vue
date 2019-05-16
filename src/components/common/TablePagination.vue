@@ -36,13 +36,19 @@
         <el-pagination
                 v-if="this.computedOptions.pagination"
                 background
+                border
+                stripe
+                layout="total, sizes, prev, pager, next, jumper"
+                size="mini"
+
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
+
                 :current-page="currentPage"
                 :page-sizes="[10, 25, 50, 100]"
                 :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
+                :total="total"
+        >
         </el-pagination>
 
     </div>
@@ -101,7 +107,11 @@
                         //         return ''
                         //     } //自定义方法，添加操作按钮
                         // }
-                    ]
+                    ],
+
+                    table:{
+                        size:"mini", // medium / small / mini
+                    }
                 }
                 // return {...this.default_options, ...this.options}
                 return {...default_options, ...this.options}

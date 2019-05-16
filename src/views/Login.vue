@@ -6,7 +6,9 @@
                  label-position="left"
                  label-width="0px"
                  class="demo-ruleForm login-page">
+
             <h3 class="title">系统登录</h3>
+
             <el-form-item prop="username">
                 <el-input type="text"
                           v-model="ruleForm2.username"
@@ -14,6 +16,7 @@
                           placeholder="用户名"
                 ></el-input>
             </el-form-item>
+
             <el-form-item prop="password">
                 <el-input type="password"
                           v-model="ruleForm2.password"
@@ -21,14 +24,17 @@
                           placeholder="密码"
                 ></el-input>
             </el-form-item>
+
             <el-checkbox
                     v-model="checked"
                     class="rememberme"
             >记住密码
             </el-checkbox>
+
             <el-form-item style="width:100%;">
                 <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录</el-button>
             </el-form-item>
+
         </el-form>
     </div>
 </template>
@@ -51,25 +57,51 @@
         },
         methods: {
             handleSubmit(event) {
-                this.$refs.ruleForm2.validate((valid) => {
-                    if (valid) {
-                        this.logining = true;
-                        if (this.ruleForm2.username === 'admin' &&
-                            this.ruleForm2.password === '123456') {
-                            this.logining = false;
-                            sessionStorage.setItem('user', this.ruleForm2.username);
-                            this.$router.push({path: '/'});
-                        } else {
-                            this.logining = false;
-                            this.$alert('username or password wrong!', 'info', {
-                                confirmButtonText: 'ok'
-                            })
-                        }
-                    } else {
-                        console.log('error submit!');
-                        return false;
-                    }
-                })
+
+                if (this.ruleForm2.username === 'admin' && this.ruleForm2.password === '123456') {
+
+                    console.log('验证通过')
+
+                    this.$store.commit('login',{
+                        accessToken:'accessToken',
+                    })
+
+                    // this.$router.push({name:'HelloWorld'});
+                    // this.$router.push({path:'/'});
+                    self.location="/";
+                } else {
+                    this.$alert('username or password wrong!', 'info', {
+                        confirmButtonText: 'ok'
+                    })
+                }
+
+
+                // this.$refs.ruleForm2.validate((valid) => {
+                //     if (valid) {
+                //         this.logining = true;
+                //         if (this.ruleForm2.username === 'admin' &&
+                //             this.ruleForm2.password === '123456') {
+                //             this.logining = false;
+                //             sessionStorage.setItem('user', this.ruleForm2.username);
+                //
+                //             this.$store.commit('login', {
+                //                 data: {
+                //                     username: 'admin'
+                //                 }
+                //             })
+                //
+                //             this.$router.push({path: '/'});
+                //         } else {
+                //             this.logining = false;
+                //             this.$alert('username or password wrong!', 'info', {
+                //                 confirmButtonText: 'ok'
+                //             })
+                //         }
+                //     } else {
+                //         console.log('error submit!');
+                //         return false;
+                //     }
+                // })
             }
         }
     };
